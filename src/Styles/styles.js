@@ -56,6 +56,12 @@ const styles = {
     display: 'flex',
     justifyContent: 'flex-end',
   },
+  listItemOption: {
+    maxWidth: '200px',
+  },
+  media: {
+    height: '18rem',
+  },
 };
 
 export default styles;

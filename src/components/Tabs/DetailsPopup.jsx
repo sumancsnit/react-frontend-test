@@ -1,96 +1,163 @@
 import React, { useState, useEffect } from 'react';
-import moment from 'moment';
-
+import axios from 'axios';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import Box from '@material-ui/core/Box';
-import DialogContent from '@material-ui/core/DialogContent';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
+import {
+  Button,
+  List,
+  ListItem,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  ListItemText,
+  CircularProgress,
+  Card,
+  CardMedia,
+} from '@material-ui/core';
+
+import { withStyles } from '@material-ui/core/styles';
 import styles from '../../Styles/styles';
+
+import {
+  TITLE,
+  YEAR,
+  POSTER,
+  RATING,
+  RATED,
+  RELEASED,
+  RUNTIME,
+  GENRE,
+  DIRECTOR,
+  LANGUAGE,
+} from '../Constants';
 
 import { fetchFullData } from '../HomePage/services';
 
-const DetailsPopup = (props) => {
-  const { classes, userName, open, onClose } = props;
+const DetailsPopup = ({ open, handleClose, imdbID, classes }) => {
+  const signal = axios.CancelToken.source();
+  const [loader, setLoader] = useState();
+  const [details, setDetails] = useState({});
 
-  const [profileDetails, setprofileDetails] = useState({});
-  const [loader, setLoader] = useState(true);
-
-  useEffect(() => {
-    getDetails();
-  }, []);
-
-  const getDetails = async () => {
+  const fetchData = async () => {
     try {
-      const profileData = await fetchFullData(userName);
-      setprofileDetails(profileData);
-      setLoader(false);
+      setLoader(true);
+      const movieDetails = await fetchFullData(signal.token, imdbID);
+      setDetails(movieDetails);
     } catch (error) {
-      console.log(error.message);
+      if (!axios.isCancel(error)) {
+        console.log(error.message);
+      }
+    } finally {
+      setLoader(false);
     }
   };
 
-  return (
-    <>
-      <Dialog
-        maxWidth='md'
-        aria-labelledby='customized-dialog-title'
-        open={open}
-      >
-        <div className={classes.dialogWrapper}>
-          {loader ? (
-            <CircularProgress className={classes.popupLoader} />
-          ) : (
-            <>
-              <p className={classes.listHeader}>User Name : {userName}</p>
+  useEffect(() => {
+    fetchData();
+    return () => signal.cancel('Request has been canceled');
+  }, []);
 
-              <DialogContent>
-                <Box className={classes.listWrapper} my={2}>
-                  <div>Public Repos</div>
-                  <div> {profileDetails.public_repos}</div>
-                </Box>
-                <Box className={classes.listWrapper} my={2}>
-                  <div>Followers</div>
-                  <div> {profileDetails.followers}</div>
-                </Box>
-                <Box className={classes.listWrapper} my={2}>
-                  <div>Following</div>
-                  <div> {profileDetails.following}</div>
-                </Box>
-                <Box className={classes.listWrapper} my={2}>
-                  <div>Created At</div>
-                  <div>
-                    {' '}
-                    {moment(profileDetails.created_at).format('MMM Do YYYY')}
-                  </div>
-                </Box>
-                <Box className={classes.listWrapper} my={2}>
-                  <div>Site Admin</div>
-                  <div> {profileDetails.site_admin ? 'Yes' : 'No'}</div>
-                </Box>
-              </DialogContent>
-            </>
-          )}
-        </div>
+  return (
+    <div>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby='scroll-dialog-title'
+        aria-describedby='scroll-dialog-description'
+        maxWidth='sm'
+        fullWidth
+      >
+        <DialogTitle id='scroll-dialog-title'>Movie Full Details</DialogTitle>
+        {loader ? (
+          <CircularProgress className={classes.Loader} />
+        ) : (
+          <DialogContent divider>
+            <div>
+              <Card className={classes.root}>
+                <CardMedia
+                  className={classes.media}
+                  image={details[POSTER]}
+                  title={details[TITLE]}
+                />
+              </Card>
+            </div>
+
+            <List>
+              <ListItem alignItems='flex-start' dense button>
+                <ListItemText className={classes.listItemOption}>
+                  Boxoffice
+                </ListItemText>
+                <ListItemText>
+                  {' '}
+                  {details[RATING] > 7 ? 'Hit' : 'Flop'}
+                </ListItemText>
+              </ListItem>
+              <ListItem dense button>
+                <ListItemText className={classes.listItemOption}>
+                  Title
+                </ListItemText>
+                <ListItemText>{details[TITLE]}</ListItemText>
+              </ListItem>
+              <ListItem dense button>
+                <ListItemText className={classes.listItemOption}>
+                  Year
+                </ListItemText>
+                <ListItemText>{details[YEAR]}</ListItemText>
+              </ListItem>
+              <ListItem dense button>
+                <ListItemText className={classes.listItemOption}>
+                  Rated
+                </ListItemText>
+                <ListItemText>{details[RATED]}</ListItemText>
+              </ListItem>
+              <ListItem dense button>
+                <ListItemText className={classes.listItemOption}>
+                  Released
+                </ListItemText>
+                <ListItemText>{details[RELEASED]}</ListItemText>
+              </ListItem>
+              <ListItem dense button>
+                <ListItemText className={classes.listItemOption}>
+                  Runtime
+                </ListItemText>
+                <ListItemText>{details[RUNTIME]}</ListItemText>
+              </ListItem>
+              <ListItem dense button>
+                <ListItemText className={classes.listItemOption}>
+                  Genre
+                </ListItemText>
+                <ListItemText>{details[GENRE]}</ListItemText>
+              </ListItem>
+              <ListItem dense button>
+                <ListItemText className={classes.listItemOption}>
+                  Director
+                </ListItemText>
+                <ListItemText>{details[DIRECTOR]}</ListItemText>
+              </ListItem>
+              <ListItem dense button>
+                <ListItemText className={classes.listItemOption}>
+                  Language
+                </ListItemText>
+                <ListItemText>{details[LANGUAGE]}</ListItemText>
+              </ListItem>
+            </List>
+          </DialogContent>
+        )}
         <DialogActions>
-          <Button variant='outlined' onClick={onClose} color='secondary'>
+          <Button onClick={handleClose} color='primary'>
             Close
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </div>
   );
 };
 
 DetailsPopup.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  userName: PropTypes.string.isRequired,
   open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(DetailsPopup);

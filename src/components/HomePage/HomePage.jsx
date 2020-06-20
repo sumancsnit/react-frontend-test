@@ -21,8 +21,6 @@ import InputFrom from '../InputForm/InputForm.jsx';
 
 import { fetchMoviesData } from './services';
 
-const KEY = '3ba48acf';
-
 const Alert = (props) => {
   return <MuiAlert elevation={6} variant='filled' {...props} />;
 };
@@ -57,10 +55,6 @@ const HomePage = (props) => {
     return () => signal.cancel('Request has been canceled');
   }, []);
 
-  const handleDetailsPopup = (id) => {
-    console.log('handleDetailsPopup -> id', id);
-  };
-
   const handleSearch = (title, data) => {
     fetchData(title, data);
   };
@@ -72,7 +66,7 @@ const HomePage = (props) => {
   const fetchData = async (title, year) => {
     try {
       setLoader(true);
-      const movilesList = await fetchMoviesData(signal.token, title, year, KEY);
+      const movilesList = await fetchMoviesData(signal.token, title, year);
       if (movilesList.Response === 'True') {
         setMoviesList(movilesList.Search);
         setNotifyTheme('success');
@@ -84,9 +78,11 @@ const HomePage = (props) => {
         setNotify(true);
       }
     } catch (error) {
-      setNotifyTheme('error');
-      setApiResponse(error.message);
-      setNotify(true);
+      if (!axios.isCancel(error)) {
+        setNotifyTheme('error');
+        setApiResponse(error.message);
+        setNotify(true);
+      }
     } finally {
       setLoader(false);
     }

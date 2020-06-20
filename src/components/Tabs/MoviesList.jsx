@@ -94,7 +94,7 @@ const MoviesList = (props) => {
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
-      {popup && <DetailsPopup close={closePopup} imdbID={imdbID} />}
+      {popup && <DetailsPopup open handleClose={closePopup} imdbID={imdbID} />}
     </>
   );
 };
