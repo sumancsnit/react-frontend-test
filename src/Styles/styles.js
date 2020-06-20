@@ -17,6 +17,7 @@ const styles = {
   },
   Tabs: {
     flexGrow: 1,
+    marginTop: '66px',
   },
   TabsItem: {
     maxWidth: '900px',
@@ -49,18 +50,43 @@ const styles = {
     paddingRight: '.5rem',
     alignSelf: 'flex-end',
   },
-  formInputDatePicker: {
-    // marginBottom: 0,
-  },
+
   buttonWrapper: {
     display: 'flex',
     justifyContent: 'flex-end',
   },
   listItemOption: {
     maxWidth: '200px',
+    fontWeight: '700',
   },
   media: {
     height: '18rem',
+    width: '18rem',
+  },
+  mediaWrapper: {
+    width: '18rem',
+    height: '18rem',
+    margin: '0 auto',
+  },
+  posterCard: {
+    backgroundColor: '#ffccbc',
+  },
+  mediaImage: {
+    height: '200px',
+    width: '100%',
+  },
+  cardDetailsWrapper: {
+    maxWidth: '300px',
+    margin: '4px',
+    borderRadius: '4px',
+  },
+  listItemHead: {
+    '& > :first-child': {
+      fontWeight: 'bolder',
+    },
+  },
+  listItemValue: {
+    textAlign: 'end',
   },
 };
 

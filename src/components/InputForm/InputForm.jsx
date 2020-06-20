@@ -86,7 +86,6 @@ const InputForm = ({ handleSearch, classes }) => {
 
 InputForm.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  users: PropTypes.arrayOf(PropTypes.any).isRequired,
   handleSearch: PropTypes.func.isRequired,
 };
 

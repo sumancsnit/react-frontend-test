@@ -27,7 +27,7 @@ import {
   RATED,
   RELEASED,
   RUNTIME,
-  GENRE,
+  COUNTRY,
   DIRECTOR,
   LANGUAGE,
 } from '../Constants';
@@ -74,7 +74,7 @@ const DetailsPopup = ({ open, handleClose, imdbID, classes }) => {
         ) : (
           <DialogContent divider>
             <div>
-              <Card className={classes.root}>
+              <Card className={classes.mediaWrapper} id='97'>
                 <CardMedia
                   className={classes.media}
                   image={details[POSTER]}
@@ -84,12 +84,11 @@ const DetailsPopup = ({ open, handleClose, imdbID, classes }) => {
             </div>
 
             <List>
-              <ListItem alignItems='flex-start' dense button>
+              <ListItem dense button>
                 <ListItemText className={classes.listItemOption}>
                   Boxoffice
                 </ListItemText>
                 <ListItemText>
-                  {' '}
                   {details[RATING] > 7 ? 'Hit' : 'Flop'}
                 </ListItemText>
               </ListItem>
@@ -125,9 +124,9 @@ const DetailsPopup = ({ open, handleClose, imdbID, classes }) => {
               </ListItem>
               <ListItem dense button>
                 <ListItemText className={classes.listItemOption}>
-                  Genre
+                  Country
                 </ListItemText>
-                <ListItemText>{details[GENRE]}</ListItemText>
+                <ListItemText>{details[COUNTRY]}</ListItemText>
               </ListItem>
               <ListItem dense button>
                 <ListItemText className={classes.listItemOption}>
@@ -158,6 +157,7 @@ DetailsPopup.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
+  imdbID: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles)(DetailsPopup);

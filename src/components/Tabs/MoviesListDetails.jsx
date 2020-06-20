@@ -1,61 +1,73 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TextField, Grid } from '@material-ui/core';
+import {
+  Grid,
+  Card,
+  CardHeader,
+  CardMedia,
+  CardContent,
+  List,
+  ListItem,
+  ListItemText,
+} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import styles from '../../Styles/styles';
 
+import { IMDB_ID, TYPE, YEAR, TITLE, POSTER } from '../Constants';
+
 const MoviesListProfile = (props) => {
-  const { classes, userDetails } = props;
+  const { classes, moviesList } = props;
   return (
-    <div>
-      <Grid
-        container
-        justify='center'
-        alignItems='center'
-        className={classes.TabsWrapper}
-        spacing={4}
-      >
-        <Grid item xs={12}>
-          <TextField
-            id='first-name'
-            label='First Name'
-            value={userDetails.first_name || ''}
-            fullWidth
-            InputProps={{
-              readOnly: true,
-            }}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            id='last-name'
-            label='Last Name'
-            value={userDetails.last_name || ''}
-            fullWidth
-            InputProps={{
-              readOnly: true,
-            }}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            id='email'
-            label='Email'
-            fullWidth
-            value={userDetails.email || ''}
-            InputProps={{
-              readOnly: true,
-            }}
-          />
-        </Grid>
+    <>
+      <Grid container className={classes.TabsWrapper} spacing={4}>
+        {moviesList.map((movie) => (
+          <Grid
+            key={movie[IMDB_ID]}
+            className={classes.cardDetailsWrapper}
+            item
+            lg={4}
+            md={6}
+            xs={12}
+          >
+            <Card>
+              <CardHeader title={movie[TITLE]} />
+              <CardMedia
+                className={classes.mediaImage}
+                image={movie[POSTER]}
+                title='Paella dish'
+                alt={movie[TITLE]}
+              />
+              <CardContent>
+                <List>
+                  <ListItem dense button>
+                    <ListItemText className={classes.listItemHead}>
+                      Type
+                    </ListItemText>
+                    <ListItemText className={classes.listItemValue}>
+                      {movie[TYPE]}
+                    </ListItemText>
+                  </ListItem>
+                  <ListItem dense button>
+                    <ListItemText className={classes.listItemHead}>
+                      Year
+                    </ListItemText>
+                    <ListItemText className={classes.listItemValue}>
+                      {movie[YEAR]}
+                    </ListItemText>
+                  </ListItem>
+                </List>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
       </Grid>
-    </div>
+    </>
   );
 };
 
 MoviesListProfile.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  userDetails: PropTypes.objectOf(PropTypes.any).isRequired,
+  moviesList: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 
 export default withStyles(styles)(MoviesListProfile);

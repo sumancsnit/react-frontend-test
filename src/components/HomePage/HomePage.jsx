@@ -29,16 +29,7 @@ const HomePage = (props) => {
   const { classes } = props;
   const [tab, setTab] = useState(0);
   const [loader, setLoader] = useState();
-  const [moviesList, setMoviesList] = useState([
-    {
-      Poster:
-        'https://m.media-amazon.com/images/M/MV5BZTRkNjdmNDktM2M3Yy00NTM1LTgyYTAtMzYwMWVhYjI4ZTI1XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_SX300.jpg',
-      Title: 'Spelling the Dream',
-      Type: 'movie',
-      Year: '2020',
-      imdbID: 'tt6193522',
-    },
-  ]);
+  const [moviesList, setMoviesList] = useState([]);
   const [notify, setNotify] = useState(false);
   const [notifyTheme, setNotifyTheme] = useState('');
   const [apiResponse, setApiResponse] = useState('');
@@ -50,7 +41,6 @@ const HomePage = (props) => {
   };
 
   useEffect(() => {
-    // fetchData('the', 2020);
     document.title = `Movie Details`;
     return () => signal.cancel('Request has been canceled');
   }, []);
@@ -76,12 +66,14 @@ const HomePage = (props) => {
         setNotifyTheme('warning');
         setApiResponse(movilesList['Error']);
         setNotify(true);
+        setMoviesList([]);
       }
     } catch (error) {
       if (!axios.isCancel(error)) {
         setNotifyTheme('error');
         setApiResponse(error.message);
         setNotify(true);
+        setMoviesList([]);
       }
     } finally {
       setLoader(false);
@@ -147,7 +139,6 @@ const HomePage = (props) => {
 
 HomePage.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  // moviesList: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 
 export default withStyles(styles)(HomePage);

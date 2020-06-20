@@ -13,7 +13,7 @@ const Header = (props) => {
 
   return (
     <div className={classes.header}>
-      <AppBar position='static'>
+      <AppBar>
         <Toolbar>
           <Avatar variant='square' className={classes.logo}>
             S K

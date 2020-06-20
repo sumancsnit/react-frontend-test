@@ -21,7 +21,7 @@ import { IMDB_ID, TYPE, YEAR, TITLE } from '../Constants';
 const MoviesList = (props) => {
   const { classes, moviesList = [] } = props;
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(7);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [popup, setPopup] = React.useState(false);
   const [imdbID, setImdbID] = React.useState('');
 
@@ -85,7 +85,7 @@ const MoviesList = (props) => {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[7, 14, 28]}
+          rowsPerPageOptions={[5, 10]}
           component='div'
           count={moviesList.length}
           rowsPerPage={rowsPerPage}
@@ -102,7 +102,6 @@ const MoviesList = (props) => {
 MoviesList.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   moviesList: PropTypes.arrayOf(PropTypes.any).isRequired,
-  openDetails: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(MoviesList);

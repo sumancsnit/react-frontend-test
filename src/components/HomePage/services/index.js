@@ -4,8 +4,6 @@ const RESOURCE = 'https://www.omdbapi.com/';
 
 const KEY = '3ba48acf';
 
-//https://www.omdbapi.com/?s=action&y=2010&apikey=96aeca02
-
 const fetchMoviesData = async (cancelToken, title, year) => {
   const response = await axios.get(RESOURCE, {
     params: {
