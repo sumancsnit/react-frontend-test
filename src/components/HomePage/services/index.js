@@ -27,7 +27,6 @@ const fetchFullData = async (cancelToken, id) => {
       apikey: KEY,
     },
   });
-  console.log('fetchFullData -> response', response);
   if (response.status === 200) return response.data;
 
   throw Error(response.message);

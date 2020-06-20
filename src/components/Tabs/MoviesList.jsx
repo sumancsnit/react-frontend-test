@@ -37,7 +37,6 @@ const MoviesList = (props) => {
   const openDetails = (id) => {
     setImdbID(id);
     setPopup(true);
-    console.log(popup);
   };
 
   const closePopup = () => {

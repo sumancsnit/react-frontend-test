@@ -72,7 +72,7 @@ const DetailsPopup = ({ open, handleClose, imdbID, classes }) => {
         {loader ? (
           <CircularProgress className={classes.Loader} />
         ) : (
-          <DialogContent divider>
+          <DialogContent>
             <div>
               <Card className={classes.mediaWrapper} id='97'>
                 <CardMedia
