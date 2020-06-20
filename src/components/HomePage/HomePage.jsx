@@ -41,6 +41,7 @@ const HomePage = (props) => {
   };
 
   useEffect(() => {
+    fetchData('Dream', 2020);
     document.title = `Movie Details`;
     return () => signal.cancel('Request has been canceled');
   }, []);
